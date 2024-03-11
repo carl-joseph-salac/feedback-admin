@@ -17,6 +17,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('AdminLTE-3.2.0/dist/css/adminlte.min.css') }}">
+    @yield('additionalStyle')
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -30,7 +31,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         @include('layout.sidebar')
 
         <!-- Content Wrapper. Contains page content -->
-        @yield('contentw')
+        @yield('content')
         <!-- /.content-wrapper -->
 
         <!-- Control Sidebar -->
