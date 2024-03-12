@@ -10,6 +10,22 @@
     </style>
 @endsection
 
+@section('active')
+    <li class="nav-item">
+            <a href="{{ url('/home') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Home Page</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('/welcome') }}" class="nav-link active">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Laravel Page</p>
+            </a>
+        </li>
+@endsection
+
+
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -149,15 +165,17 @@
 </div>
 @endsection
 
-{{-- <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@section('additionalScript')
+    {{-- <script>
+        $(document).ready(function() {
+            // Check current URL and add 'active' class to corresponding nav-link
+            var currentUrl = window.location.href;
+            $('.nav-link').each(function() {
+                if (this.href === currentUrl) {
+                $(this).addClass('active');
+                }
+            });
+            });
 
-        <title>Laravel</title>
-    </head>
-    <body class="antialiased">
-
-    </body>
-</html> --}}
+    </script> --}}
+@endsection
