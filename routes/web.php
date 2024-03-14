@@ -13,10 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/home', function () {
-    return view('starter');
+Route::get('/dashboard', function () {
+    return view('dashboard');
 });
 
-Route::get('/welcome', function () {
-    return view('welcome');
+Route::get('/chartjs', function () {
+    return view('chartJs');
+});
+
+
+Route::get('/invoice', function () {
+    return view('invoice');
 });
