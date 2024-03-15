@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
+// Group routes under the 'admin' prefix
+Route::controller(DashboardController::class)->group(function () {
+    Route::get('/dashboard', 'viewDashboard')->name('dashboard');
 });
 
 Route::get('/chartjs', function () {

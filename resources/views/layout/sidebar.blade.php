@@ -9,7 +9,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-1 mb-3 pb-0 d-flex">
+        <div class="user-panel mt-1 mb-3 pb-0 d-flex justify-content-center">
             <div class="info py-0">
                 <span class="text-white"><b>Department of Education</b></span>
                 <p class="text-white mb-2 mt-1">Region IV-A Calabarzon</p>
