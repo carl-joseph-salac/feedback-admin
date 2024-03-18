@@ -14,27 +14,12 @@
         </a>
     </li>
     <li class="nav-item menu-is-opening menu-open">
-        <a href="#" class="nav-link active">
+        <a href="{{ route('report') }}" class="nav-link active">
           <i class="nav-icon fas fa-chart-pie"></i>
           <p>
             Report
-            <i class="right fas fa-angle-left"></i>
           </p>
         </a>
-        <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="{{ url('chartjs') }}" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>ChartJS</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ url('invoice') }}" class="nav-link active">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Invoice</p>
-            </a>
-          </li>
-        </ul>
       </li>
     <li class="nav-item">
         <a class="nav-link" href="http://20.20.23.71:8000/feedback-client/public/feedback?logsNumber=2024-00001"

@@ -16,13 +16,5 @@ use App\Http\Controllers\DashboardController;
 // Group routes under the 'admin' prefix
 Route::controller(DashboardController::class)->group(function () {
     Route::get('/dashboard', 'viewDashboard')->name('dashboard');
-});
-
-Route::get('/chartjs', function () {
-    return view('chartJs');
-});
-
-
-Route::get('/invoice', function () {
-    return view('invoice');
+    Route::get('/report', 'viewReport')->name('report');
 });
