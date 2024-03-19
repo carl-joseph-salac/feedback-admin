@@ -45,7 +45,7 @@
     <section class="content">
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
                     <div class="small-box bg-info">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-8">
                     <canvas class="d-flex justify-content-center mb-4" id="myChart" width="400"
@@ -155,83 +155,135 @@
                                     </tr>
                                     <tr>
                                         <td>SQD1</td>
-                                        <td>{{ $sqd1->strongly_agree_count }}</td>
-                                        <td>{{ $sqd1->agree_count }}</td>
-                                        <td>{{ $sqd1->neutral_count }}</td>
-                                        <td>{{ $sqd1->disagree_count }}</td>
                                         <td>{{ $sqd1->strongly_disagree_count }}</td>
+                                        <td>{{ $sqd1->disagree_count }}</td>
+                                        <td>{{ $sqd1->neutral_count }}</td>
+                                        <td>{{ $sqd1->agree_count }}</td>
+                                        <td>{{ $sqd1->strongly_agree_count }}</td>
                                     </tr>
                                     <tr>
                                         <td>SQD2</td>
-                                        <td>{{ $sqd2->strongly_agree_count }}</td>
-                                        <td>{{ $sqd2->agree_count }}</td>
-                                        <td>{{ $sqd2->neutral_count }}</td>
-                                        <td>{{ $sqd2->disagree_count }}</td>
                                         <td>{{ $sqd2->strongly_disagree_count }}</td>
+                                        <td>{{ $sqd2->disagree_count }}</td>
+                                        <td>{{ $sqd2->neutral_count }}</td>
+                                        <td>{{ $sqd2->agree_count }}</td>
+                                        <td>{{ $sqd2->strongly_agree_count }}</td>
                                     </tr>
                                     <tr>
                                         <td>SQD3</td>
-                                        <td>{{ $sqd3->strongly_agree_count }}</td>
-                                        <td>{{ $sqd3->agree_count }}</td>
-                                        <td>{{ $sqd3->neutral_count }}</td>
-                                        <td>{{ $sqd3->disagree_count }}</td>
                                         <td>{{ $sqd3->strongly_disagree_count }}</td>
+                                        <td>{{ $sqd3->disagree_count }}</td>
+                                        <td>{{ $sqd3->neutral_count }}</td>
+                                        <td>{{ $sqd3->agree_count }}</td>
+                                        <td>{{ $sqd3->strongly_agree_count }}</td>
                                     </tr>
                                     <tr>
                                         <td>SQD4</td>
-                                        <td>{{ $sqd4->strongly_agree_count }}</td>
-                                        <td>{{ $sqd4->agree_count }}</td>
-                                        <td>{{ $sqd4->neutral_count }}</td>
-                                        <td>{{ $sqd4->disagree_count }}</td>
                                         <td>{{ $sqd4->strongly_disagree_count }}</td>
+                                        <td>{{ $sqd4->disagree_count }}</td>
+                                        <td>{{ $sqd4->neutral_count }}</td>
+                                        <td>{{ $sqd4->agree_count }}</td>
+                                        <td>{{ $sqd4->strongly_agree_count }}</td>
                                     </tr>
                                     <tr>
                                         <td>SQD5</td>
-                                        <td>{{ $sqd5->strongly_agree_count }}</td>
-                                        <td>{{ $sqd5->agree_count }}</td>
-                                        <td>{{ $sqd5->neutral_count }}</td>
-                                        <td>{{ $sqd5->disagree_count }}</td>
                                         <td>{{ $sqd5->strongly_disagree_count }}</td>
+                                        <td>{{ $sqd5->disagree_count }}</td>
+                                        <td>{{ $sqd5->neutral_count }}</td>
+                                        <td>{{ $sqd5->agree_count }}</td>
+                                        <td>{{ $sqd5->strongly_agree_count }}</td>
                                     </tr>
                                     <tr>
                                         <td>SQD6</td>
-                                        <td>{{ $sqd6->strongly_agree_count }}</td>
-                                        <td>{{ $sqd6->agree_count }}</td>
-                                        <td>{{ $sqd6->neutral_count }}</td>
-                                        <td>{{ $sqd6->disagree_count }}</td>
                                         <td>{{ $sqd6->strongly_disagree_count }}</td>
+                                        <td>{{ $sqd6->disagree_count }}</td>
+                                        <td>{{ $sqd6->neutral_count }}</td>
+                                        <td>{{ $sqd6->agree_count }}</td>
+                                        <td>{{ $sqd6->strongly_agree_count }}</td>
                                     </tr>
                                     <tr>
                                         <td>SQD7</td>
-                                        <td>{{ $sqd7->strongly_agree_count }}</td>
-                                        <td>{{ $sqd7->agree_count }}</td>
-                                        <td>{{ $sqd7->neutral_count }}</td>
-                                        <td>{{ $sqd7->disagree_count }}</td>
                                         <td>{{ $sqd7->strongly_disagree_count }}</td>
+                                        <td>{{ $sqd7->disagree_count }}</td>
+                                        <td>{{ $sqd7->neutral_count }}</td>
+                                        <td>{{ $sqd7->agree_count }}</td>
+                                        <td>{{ $sqd7->strongly_agree_count }}</td>
                                     </tr>
                                     <tr>
                                         <td>SQD8</td>
-                                        <td>{{ $sqd8->strongly_agree_count }}</td>
-                                        <td>{{ $sqd8->agree_count }}</td>
-                                        <td>{{ $sqd8->neutral_count }}</td>
-                                        <td>{{ $sqd8->disagree_count }}</td>
                                         <td>{{ $sqd8->strongly_disagree_count }}</td>
+                                        <td>{{ $sqd8->disagree_count }}</td>
+                                        <td>{{ $sqd8->neutral_count }}</td>
+                                        <td>{{ $sqd8->agree_count }}</td>
+                                        <td>{{ $sqd8->strongly_agree_count }}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Total</strong></td>
-                                        <td><strong>{{ $sqd0->strongly_agree_count
-                                        + $sqd1->strongly_agree_count
-                                        + $sqd2->strongly_agree_count
-                                        + $sqd3->strongly_agree_count
-                                        + $sqd4->strongly_agree_count
-                                        + $sqd5->strongly_agree_count
-                                        + $sqd6->strongly_agree_count
-                                        + $sqd7->strongly_agree_count
-                                        + $sqd8->strongly_agree_count }}</strong></td>
-                                        <td><strong>0</strong></td>
-                                        <td><strong>0</strong></td>
-                                        <td><strong>0</strong></td>
-                                        <td><strong>0</strong></td>
+                                        <td>
+                                            <strong>
+                                                {{ $sqd0->strongly_disagree_count +
+                                                    $sqd1->strongly_disagree_count +
+                                                    $sqd2->strongly_disagree_count +
+                                                    $sqd3->strongly_disagree_count +
+                                                    $sqd4->strongly_disagree_count +
+                                                    $sqd5->strongly_disagree_count +
+                                                    $sqd6->strongly_disagree_count +
+                                                    $sqd7->strongly_disagree_count +
+                                                    $sqd8->strongly_disagree_count }}
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <strong>
+                                                {{ $sqd0->disagree_count +
+                                                    $sqd1->disagree_count +
+                                                    $sqd2->disagree_count +
+                                                    $sqd3->disagree_count +
+                                                    $sqd4->disagree_count +
+                                                    $sqd5->disagree_count +
+                                                    $sqd6->disagree_count +
+                                                    $sqd7->disagree_count +
+                                                    $sqd8->disagree_count }}
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <strong>
+                                                {{ $sqd0->neutral_count +
+                                                    $sqd1->neutral_count +
+                                                    $sqd2->neutral_count +
+                                                    $sqd3->neutral_count +
+                                                    $sqd4->neutral_count +
+                                                    $sqd5->neutral_count +
+                                                    $sqd6->neutral_count +
+                                                    $sqd7->neutral_count +
+                                                    $sqd8->neutral_count }}
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <strong>
+                                                {{ $sqd0->agree_count +
+                                                    $sqd1->agree_count +
+                                                    $sqd2->agree_count +
+                                                    $sqd3->agree_count +
+                                                    $sqd4->agree_count +
+                                                    $sqd5->agree_count +
+                                                    $sqd6->agree_count +
+                                                    $sqd7->agree_count +
+                                                    $sqd8->agree_count }}
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <strong>
+                                                {{ $sqd0->strongly_agree_count +
+                                                    $sqd1->strongly_agree_count +
+                                                    $sqd2->strongly_agree_count +
+                                                    $sqd3->strongly_agree_count +
+                                                    $sqd4->strongly_agree_count +
+                                                    $sqd5->strongly_agree_count +
+                                                    $sqd6->strongly_agree_count +
+                                                    $sqd7->strongly_agree_count +
+                                                    $sqd8->strongly_agree_count }}
+                                            </strong>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -259,71 +311,117 @@
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderColor: 'rgba(255, 162, 235, 1)',
                 borderWidth: 1,
-                data: [{{$sqd0->strongly_agree_count}},
-                        {{$sqd0->agree_count}}, 80, 81, 56, 55, 40, 40]
+                data: [
+                    {{ $sqd0->strongly_disagree_count }},
+                    {{ $sqd0->disagree_count }},
+                    {{ $sqd0->neutral_count }},
+                    {{ $sqd0->agree_count }},
+                    {{ $sqd0->strongly_agree_count }}
+                ]
             }, {
                 label: 'SQD1',
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderColor: 'rgba(255, 162, 235, 1)',
                 borderWidth: 1,
                 hidden: true,
-                data: [65, 59, 80, 81, 56, 55, 40, 40]
-            },{
+                data: [
+                    {{ $sqd1->strongly_disagree_count }},
+                    {{ $sqd1->disagree_count }},
+                    {{ $sqd1->neutral_count }},
+                    {{ $sqd1->agree_count }},
+                    {{ $sqd1->strongly_agree_count }}
+                ]
+            }, {
                 label: 'SQD2',
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderColor: 'rgba(255, 162, 235, 1)',
                 borderWidth: 1,
                 hidden: true,
-                data: [65, 59, 80, 81, 56, 55, 40, 40]
-            },{
+                data: [
+                    {{ $sqd2->strongly_disagree_count }},
+                    {{ $sqd2->disagree_count }},
+                    {{ $sqd2->neutral_count }},
+                    {{ $sqd2->agree_count }},
+                    {{ $sqd2->strongly_agree_count }}
+                ]
+            }, {
                 label: 'SQD3',
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderColor: 'rgba(255, 162, 235, 1)',
                 borderWidth: 1,
                 hidden: true,
-                data: [65, 59, 80, 81, 56, 55, 40, 40]
-            },{
+                data: [
+                    {{ $sqd3->strongly_disagree_count }},
+                    {{ $sqd3->disagree_count }},
+                    {{ $sqd3->neutral_count }},
+                    {{ $sqd3->agree_count }},
+                    {{ $sqd3->strongly_agree_count }}
+                ]
+            }, {
                 label: 'SQD4',
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderColor: 'rgba(255, 162, 235, 1)',
                 borderWidth: 1,
                 hidden: true,
-                data: [65, 59, 80, 81, 56, 55, 40, 40]
-            },{
+                data: [
+                    {{ $sqd4->strongly_disagree_count }},
+                    {{ $sqd4->disagree_count }},
+                    {{ $sqd4->neutral_count }},
+                    {{ $sqd4->agree_count }},
+                    {{ $sqd4->strongly_agree_count }}
+                ]
+            }, {
                 label: 'SQD5',
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderColor: 'rgba(255, 162, 235, 1)',
                 borderWidth: 1,
                 hidden: true,
-                data: [65, 59, 80, 81, 56, 55, 40, 40]
-            },{
+                data: [
+                    {{ $sqd5->strongly_disagree_count }},
+                    {{ $sqd5->disagree_count }},
+                    {{ $sqd5->neutral_count }},
+                    {{ $sqd5->agree_count }},
+                    {{ $sqd5->strongly_agree_count }}
+                ]
+            }, {
                 label: 'SQD6',
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderColor: 'rgba(255, 162, 235, 1)',
                 borderWidth: 1,
                 hidden: true,
-                data: [65, 59, 80, 81, 56, 55, 40, 40]
-            },{
+                data: [
+                    {{ $sqd6->strongly_disagree_count }},
+                    {{ $sqd6->disagree_count }},
+                    {{ $sqd6->neutral_count }},
+                    {{ $sqd6->agree_count }},
+                    {{ $sqd6->strongly_agree_count }}
+                ]
+            }, {
                 label: 'SQD7',
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderColor: 'rgba(255, 162, 235, 1)',
                 borderWidth: 1,
                 hidden: true,
-                data: [65, 59, 80, 81, 56, 55, 40, 40]
-            },{
+                data: [
+                    {{ $sqd7->strongly_disagree_count }},
+                    {{ $sqd7->disagree_count }},
+                    {{ $sqd7->neutral_count }},
+                    {{ $sqd7->agree_count }},
+                    {{ $sqd7->strongly_agree_count }}
+                ]
+            }, {
                 label: 'SQD8',
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderColor: 'rgba(255, 162, 235, 1)',
                 borderWidth: 1,
                 hidden: true,
-                data: [65, 59, 80, 81, 56, 55, 40, 40]
-            },{
-                label: 'SQD9',
-                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                borderColor: 'rgba(255, 162, 235, 1)',
-                borderWidth: 1,
-                hidden: true,
-                data: [65, 59, 80, 81, 56, 55, 40, 40]
+                data: [
+                    {{ $sqd8->strongly_disagree_count }},
+                    {{ $sqd8->disagree_count }},
+                    {{ $sqd8->neutral_count }},
+                    {{ $sqd8->agree_count }},
+                    {{ $sqd8->strongly_agree_count }}
+                ]
             }]
         };
 
