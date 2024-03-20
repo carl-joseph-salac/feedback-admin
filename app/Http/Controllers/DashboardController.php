@@ -6,7 +6,30 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function viewDashboard()
+    public function viewCC()
+    {
+        $cc1 = DB::table('tbl_feedback')
+            ->selectRaw(
+                'SUM(CASE WHEN cc1 LIKE "%I know what a CC is and I saw%" THEN 1 ELSE 0 END) AS choices1_count,
+                 SUM(CASE WHEN cc1 LIKE "%I know what a CC is but I did not saw%" THEN 1 ELSE 0 END) AS choices2_count,
+                 SUM(CASE WHEN cc1 LIKE "%I learned of the CC only when I saw%" THEN 1 ELSE 0 END) AS choices3_count,
+                 SUM(CASE WHEN cc1 = "I do not know what a CC is and I did not see one in this office." THEN 1 ELSE 0 END) AS choices4_count',
+            )
+            ->first();
+
+        $cc2 = DB::table('tbl_feedback')
+            ->selectRaw(
+                'SUM(CASE WHEN cc2 = "Easy to see" THEN 1 ELSE 0 END) AS choices1_count,
+                 SUM(CASE WHEN cc2 = "Somewhat easy to see" THEN 1 ELSE 0 END) AS choices2_count,
+                 SUM(CASE WHEN cc2 = "Difficult to see" THEN 1 ELSE 0 END) AS choices3_count,
+                 SUM(CASE WHEN cc2 = "Not visible at all" THEN 1 ELSE 0 END) AS choices4_count'
+            )
+            ->first();
+
+        return view('cc', compact('cc1', 'cc2'));
+    }
+
+    public function viewSQD()
     {
         // $sqdFeedback = DB::table('tbl_feedback')->select('sqd0')->where('sqd0', 'Agree')->get()->count();
 
@@ -101,7 +124,7 @@ class DashboardController extends Controller
             ->first();
 
         // dd($sqd0);
-        return view('dashboard', compact('sqd0', 'sqd1', 'sqd2', 'sqd3', 'sqd4', 'sqd5', 'sqd6', 'sqd7', 'sqd8'));
+        return view('sqd', compact('sqd0', 'sqd1', 'sqd2', 'sqd3', 'sqd4', 'sqd5', 'sqd6', 'sqd7', 'sqd8'));
     }
 
     public function viewReport()
