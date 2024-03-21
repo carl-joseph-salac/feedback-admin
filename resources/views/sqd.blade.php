@@ -4,57 +4,6 @@
     <h1 class="m-0">Dashboard</h1>
 @endsection
 
-@section('active')
-    <li class="nav-item  menu-is-opening menu-open">
-        <a href="" class="nav-link active">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
-            <p>
-                Dashboard
-                <i class="right fas fa-angle-left"></i>
-            </p>
-        </a>
-        <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="{{ route('CC') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>CC</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('SQD') }}" class="nav-link active">
-                <i class="far fa-circle nav-icon"></i>
-                <p>SQD</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Suggestion</p>
-              </a>
-            </li>
-          </ul>
-    </li>
-    <li class="nav-item">
-        <a href="{{ route('report') }}" class="nav-link">
-            <i class="nav-icon fas fa-chart-pie"></i>
-            <p>
-                Report
-                <i class="right fas"></i>
-            </p>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="http://20.20.23.71:8000/feedback-client/public/feedback?logsNumber=2024-00001"
-            class="nav-link">
-            <i class="nav-icon fas fa-th"></i>
-            <p>
-                Feedback Client
-                <span class="right badge badge-danger">New</span>
-            </p>
-        </a>
-    </li>
-@endsection
-
 @section('content')
     <!-- Main content -->
     <section class="content">
@@ -125,7 +74,7 @@
             <div class="row d-flex">
                 <div class="card card-danger card-outline col-12 col-lg-7 h-50">
                     <div class="card-header">
-                        <h3 class="card-title">SQD</h3>
+                        <h3 class="card-title"><strong>SQD</strong></h3>
                     </div>
                     <div class="card-body">
                         <canvas class="d-flex justify-content-center mb-4" id="myChart"></canvas>
@@ -138,8 +87,13 @@
                     <div class="card-header text-right">
                         <form action="#" method="get">
                             <select name="fy" required="" class="btn btn-outline-danger btn-sm mr-1">
-                                <option value="2024" selected>2024</option>
-                                <option value="2025">2025</option>
+                                @foreach ($years as $year)
+                                    @if ($year == $currentYear)
+                                        <option value="{{ $year }}" selected>{{ $year }}</option>
+                                    @else
+                                     <option value="{{ $year }}">{{ $year }}</option>
+                                    @endif
+                                @endforeach
                             </select>
                             <button type="submit" name="" class="btn btn-danger btn-sm rounded">
                                 View

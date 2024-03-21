@@ -33,7 +33,58 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                @yield('active')
+                <li class="nav-item  menu-is-opening menu-open">
+                    <a href="" class="nav-link {{
+                        (strpos(Route::currentRouteName(), 'CC') === 0 || strpos(Route::currentRouteName(), 'SQD') === 0) ? 'active' :
+                        (strpos(Route::currentRouteName(), 'CC') === false && strpos(Route::currentRouteName(), 'SQD') === false ? '' : '')
+                    }}">
+
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Dashboard
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('CC') }}" class="nav-link {{ strpos(Route::currentRouteName(), 'CC') === 0 ? 'active' : (strpos(Route::currentRouteName(), 'CC') === false ? '' : '') }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>CC</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('SQD') }}" class="nav-link {{ strpos(Route::currentRouteName(), 'SQD') === 0 ? 'active' : (strpos(Route::currentRouteName(), 'SQD') === false ? '' : '') }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>SQD</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Suggestion</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('report') }}" class="nav-link {{ strpos(Route::currentRouteName(), 'report') === 0 ? 'active' : (strpos(Route::currentRouteName(), 'CC') === false ? '' : '') }}">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Report
+                            <i class="right fas"></i>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://20.20.23.71:8000/feedback-client/public/feedback?logsNumber=2024-00001"
+                        class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Feedback Client
+                            <span class="right badge badge-danger">New</span>
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
