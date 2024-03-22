@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ url('/dashboard') }}" class="brand-link">
+    <a href="{{ route('CC') }}" class="brand-link">
         <img src="{{ asset('images/deped-calabarzon-logo.jpg') }}" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3" style="">
         <span class="brand-text font-weight-light"><b>Feedback Admin</b></span>
@@ -33,7 +33,10 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                <li class="nav-item  menu-is-opening menu-open">
+                <li class="nav-item {{
+                    (strpos(Route::currentRouteName(), 'CC') === 0 || strpos(Route::currentRouteName(), 'SQD') === 0) ? 'menu-is-opening menu-open' :
+                    (strpos(Route::currentRouteName(), 'CC') === false && strpos(Route::currentRouteName(), 'SQD') === false ? '' : '')
+                    }}">
                     <a href="" class="nav-link {{
                         (strpos(Route::currentRouteName(), 'CC') === 0 || strpos(Route::currentRouteName(), 'SQD') === 0) ? 'active' :
                         (strpos(Route::currentRouteName(), 'CC') === false && strpos(Route::currentRouteName(), 'SQD') === false ? '' : '')
@@ -67,7 +70,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('report') }}" class="nav-link {{ strpos(Route::currentRouteName(), 'report') === 0 ? 'active' : (strpos(Route::currentRouteName(), 'CC') === false ? '' : '') }}">
+                    <a href="{{ route('report') }}" class="nav-link {{ strpos(Route::currentRouteName(), 'report') === 0 ? 'active' : (strpos(Route::currentRouteName(), 'report') === false ? '' : '') }}">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
                             Report

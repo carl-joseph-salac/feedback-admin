@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-// use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
     public function viewCC(Request $request)
     {
-        $cc1 = DB::table('tbl_feedback')->whereYear('feedback_date', $request->year)
+        $cc1 = DB::table('tbl_feedback')
             ->selectRaw(
                 'SUM(CASE WHEN cc1 LIKE "%I know what a CC is and I saw%" THEN 1 ELSE 0 END) AS choices1_count,
                  SUM(CASE WHEN cc1 LIKE "%I know what a CC is but I did not saw%" THEN 1 ELSE 0 END) AS choices2_count,
@@ -18,7 +17,7 @@ class DashboardController extends Controller
                  SUM(CASE WHEN cc1 = "I do not know what a CC is and I did not see one in this office." THEN 1 ELSE 0 END) AS choices4_count',
             )
             ->first();
-        $cc2 = DB::table('tbl_feedback')->whereYear('feedback_date', $request->year)
+        $cc2 = DB::table('tbl_feedback')
             ->selectRaw(
                 'SUM(CASE WHEN cc2 = "Easy to see" THEN 1 ELSE 0 END) AS choices1_count,
                  SUM(CASE WHEN cc2 = "Somewhat easy to see" THEN 1 ELSE 0 END) AS choices2_count,
@@ -26,7 +25,7 @@ class DashboardController extends Controller
                  SUM(CASE WHEN cc2 = "Not visible at all" THEN 1 ELSE 0 END) AS choices4_count',
             )
             ->first();
-        $cc3 = DB::table('tbl_feedback')->whereYear('feedback_date', $request->year)
+        $cc3 = DB::table('tbl_feedback')
             ->selectRaw(
                 'SUM(CASE WHEN cc3 = "Helped very much" THEN 1 ELSE 0 END) AS choices1_count,
                  SUM(CASE WHEN cc3 = "Somewhat helped" THEN 1 ELSE 0 END) AS choices2_count,
@@ -147,21 +146,35 @@ class DashboardController extends Controller
         return view('report', compact('currentYear'));
     }
 
-    // public function get(Request $request)
-    // {
+    public function get(Request $request)
+    {
+        $cc1 = DB::table('tbl_feedback')->whereYear('feedback_date', $request->year)
+            ->selectRaw(
+                'SUM(CASE WHEN cc1 LIKE "%I know what a CC is and I saw%" THEN 1 ELSE 0 END) AS choices1_count,
+                 SUM(CASE WHEN cc1 LIKE "%I know what a CC is but I did not saw%" THEN 1 ELSE 0 END) AS choices2_count,
+                 SUM(CASE WHEN cc1 LIKE "%I learned of the CC only when I saw%" THEN 1 ELSE 0 END) AS choices3_count,
+                 SUM(CASE WHEN cc1 = "I do not know what a CC is and I did not see one in this office." THEN 1 ELSE 0 END) AS choices4_count',
+            )
+            ->first();
 
-    //     $sqd8 = DB::table('tbl_feedback')
-    //     ->selectRaw(
-    //         'SUM(CASE WHEN sqd8 = "Strongly Disagree" THEN 1 ELSE 0 END) AS strongly_disagree_count,
-    //              SUM(CASE WHEN sqd8 = "Disagree" THEN 1 ELSE 0 END) AS disagree_count,
-    //              SUM(CASE WHEN sqd8 = "Neither Agree nor Disagree" THEN 1 ELSE 0 END) AS neutral_count,
-    //              SUM(CASE WHEN sqd8 = "Agree" THEN 1 ELSE 0 END) AS agree_count,
-    //              SUM(CASE WHEN sqd8 = "Strongly Agree" THEN 1 ELSE 0 END) AS strongly_agree_count',
-    //     )
-    //     ->first();
-    //     $alldata = [
-    //         $sqd8,
-    //     ];
-    //     return response()->json($alldata);
-    // }
+        $cc2 = DB::table('tbl_feedback')->whereYear('feedback_date', $request->year)
+            ->selectRaw(
+                'SUM(CASE WHEN cc2 = "Easy to see" THEN 1 ELSE 0 END) AS choices1_count,
+                 SUM(CASE WHEN cc2 = "Somewhat easy to see" THEN 1 ELSE 0 END) AS choices2_count,
+                 SUM(CASE WHEN cc2 = "Difficult to see" THEN 1 ELSE 0 END) AS choices3_count,
+                 SUM(CASE WHEN cc2 = "Not visible at all" THEN 1 ELSE 0 END) AS choices4_count',
+            )
+            ->first();
+        $cc3 = DB::table('tbl_feedback')->whereYear('feedback_date', $request->year)
+            ->selectRaw(
+                'SUM(CASE WHEN cc3 = "Helped very much" THEN 1 ELSE 0 END) AS choices1_count,
+                 SUM(CASE WHEN cc3 = "Somewhat helped" THEN 1 ELSE 0 END) AS choices2_count,
+                 SUM(CASE WHEN cc3 = "Did not help" THEN 1 ELSE 0 END) AS choices3_count',
+            )
+            ->first();
+        $alldata = [
+            $cc1, $cc2, $cc3
+        ];
+        return response()->json($alldata);
+    }
 }

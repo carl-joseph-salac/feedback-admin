@@ -16,7 +16,7 @@ use App\Http\Controllers\DashboardController;
 // Group routes under the 'admin' prefix
 Route::controller(DashboardController::class)->group(function () {
     Route::get('/dashboard/cc', 'viewCC')->name('CC');
-    // Route::get('/getData', 'get');
+    Route::get('/getData', 'get');
     Route::get('/dashboard/sqd', 'viewSQD')->name('SQD');
     Route::get('/report', 'viewReport')->name('report');
 });
