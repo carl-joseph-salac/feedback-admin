@@ -2,6 +2,7 @@
 
 @section('headerTitle')
     <h1 class="m-0">Dashboard</h1>
+
 @endsection
 
 @section('content')
@@ -83,19 +84,18 @@
 
                 <div class="col-lg-1"></div>
 
-                <div class="card card-danger card-outline col-12 col-lg-4 p-0">
+                <div class="card card-danger card-outline col-12 col-lg-4 p-0 h-50">
                     <div class="card-header text-right">
                         <form id="yearForm" action="" method="get">
-                            <select id="2024" name="year" required="" class="btn btn-outline-danger btn-sm mr-1">
+                            <select id="select" name="year" required="" class="btn btn-outline-danger btn-sm mr-1">
                                 @foreach ($years as $year)
-                                    @if (Request()->get('year') == $year)
+                                    @if ($year == $currentYear)
                                         <option value="{{ $year }}" selected>{{ $year }}</option>
                                     @else
                                         <option value="{{ $year }}">{{ $year }}</option>
                                     @endif
                                 @endforeach
-                                {{-- <option value="2025">2025</option>
-                                <option value="2024">2024</option> --}}
+                                <option value="2025">2025</option>
                             </select>
                             <button id="view" type="submit" name="" class="btn btn-danger btn-sm rounded">
                                 View
@@ -107,7 +107,7 @@
                             <thead>
                                 <tr>
                                     <th>Questions</th>
-                                    <th colspan="6" class="text-center pl-2">Answers</th>
+                                    <th colspan="6" class="text-center pl-2">Choices</th>
                                 </tr>
                                 <tr>
                                     <th></th>
@@ -139,7 +139,14 @@
                                     <td id="cc3-choices3"></td>
                                     <td></td>
                                 </tr>
-                                <tr id="total"></tr>
+                                <tr>
+                                    <td><strong>Total</strong></td>
+                                    <td><strong id="choices1-total"></strong></td>
+                                    <td><strong id="choices2-total"></strong></td>
+                                    <td><strong id="choices3-total"></strong></td>
+                                    <td><strong id="choices4-total"></strong></td>
+                                </tr>
+                                {{-- <tr id="total"></tr> --}}
                             </tbody>
                         </table>
                     </div>
@@ -150,7 +157,7 @@
 @endsection
 
 @section('additionalScript')
-    <script>
+    {{-- <script>
         // Get the canvas element
         var ctx = document.getElementById('myChart').getContext('2d');
 
@@ -222,71 +229,104 @@
             data: data,
             options: options
         });
-    </script>
+    </script> --}}
 
     <script>
         $(document).ready(function() {
-            var dataAppended = false;
+            var currentYear = "{{ $currentYear }}";
+            $.ajax({
+                url: 'http://localhost:8000/feedback-admin/public/dashboard/cc?year=' +
+                currentYear, // Update this your Laravel endpoint URL
+                type: 'GET', // Change the request method if needed
+                dataType: 'json', // The type of data you're expecting back from the server
+                success: function(response) {
+                    // Handle successful response
+                    console.log(response)
+                    var choices1Total = parseInt(response[0]?.choices1_count || 0) +
+                        parseInt(response[1]?.choices1_count || 0) +
+                        parseInt(response[2]?.choices1_count || 0);
+                    var choices2Total = parseInt(response[0]?.choices2_count || 0) +
+                        parseInt(response[1]?.choices2_count || 0) +
+                        parseInt(response[2]?.choices2_count || 0);
+                    var choices3Total = parseInt(response[0]?.choices3_count || 0) +
+                        parseInt(response[1]?.choices3_count || 0) +
+                        parseInt(response[2]?.choices3_count || 0);
+                    var choices4Total = parseInt(response[0]?.choices4_count || 0) +
+                        parseInt(response[1]?.choices4_count || 0);
+
+                    $('#cc1-choices1').text(response[0]?.choices1_count || 0);
+                    $('#cc1-choices2').text(response[0]?.choices2_count || 0);
+                    $('#cc1-choices3').text(response[0]?.choices3_count || 0);
+                    $('#cc1-choices4').text(response[0]?.choices4_count || 0);
+                    $('#cc2-choices1').text(response[1]?.choices1_count || 0);
+                    $('#cc2-choices2').text(response[1]?.choices2_count || 0);
+                    $('#cc2-choices3').text(response[1]?.choices3_count || 0);
+                    $('#cc2-choices4').text(response[1]?.choices4_count || 0);
+                    $('#cc3-choices1').text(response[2]?.choices1_count || 0);
+                    $('#cc3-choices2').text(response[2]?.choices2_count || 0);
+                    $('#cc3-choices3').text(response[2]?.choices3_count || 0);
+                    $('#cc3-choices3').text(response[2]?.choices3_count || 0);
+                    $('#choices1-total').text(choices1Total);
+                    $('#choices2-total').text(choices2Total);
+                    $('#choices3-total').text(choices3Total);
+                    $('#choices4-total').text(choices4Total);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                    console.error(xhr.responseText);
+                }
+            });
 
             $('#yearForm').submit(function(event) {
                 // Prevent default form submission
                 event.preventDefault();
 
-                // If data has already been appended, return early
-                // if (dataAppended) {
-                //     return;
-
-                // }
                 // Get form data
-                var formData = $('#2024').val();
+                var formData = $('#select').val();
                 console.log(formData)
                 // Make AJAX request
                 $.ajax({
-                    url: 'http://localhost:8000/feedback-admin/public/getData?year=' +
-                        formData, // Update this with your Laravel endpoint URL
-                    type: 'GET', // Change the request method if needed
-                    dataType: 'json', // The type of data you're expecting back from the server
+                    url: 'http://localhost:8000/feedback-admin/public/dashboard/cc?year=' + formData,
+                    type: 'GET',
+                    dataType: 'json',
                     success: function(response) {
                         // Handle successful response
                         console.log(response)
-                        var choices1Total = parseInt(response[0].choices1_count) +
-                            parseInt(response[1].choices1_count) +
-                            parseInt(response[2].choices1_count);
-                        var choices2Total = parseInt(response[0].choices2_count) +
-                            parseInt(response[1].choices2_count) +
-                            parseInt(response[2].choices2_count);
-                        var choices3Total = parseInt(response[0].choices3_count) +
-                            parseInt(response[1].choices3_count) +
-                            parseInt(response[2].choices3_count);
-                        var choices4Total = parseInt(response[0].choices4_count) +
-                            parseInt(response[1].choices4_count);
+                        var choices1Total = (parseInt(response[0]?.choices1_count) || 0) +
+                            (parseInt(response[1]?.choices1_count) || 0) +
+                            (parseInt(response[2]?.choices1_count) || 0);
+                        var choices2Total = (parseInt(response[0]?.choices2_count) || 0) +
+                            (parseInt(response[1]?.choices2_count) || 0) +
+                            (parseInt(response[2]?.choices2_count) || 0);
+                        var choices3Total = (parseInt(response[0]?.choices3_count) || 0) +
+                            (parseInt(response[1]?.choices3_count) || 0) +
+                            (parseInt(response[2]?.choices3_count) || 0);
+                        var choices4Total = (parseInt(response[0]?.choices4_count) || 0) +
+                            (parseInt(response[1]?.choices4_count) || 0);
 
-                        $('#cc1-choices1').text(response[0].choices1_count);
-                        $('#cc1-choices2').text(response[0].choices2_count);
-                        $('#cc1-choices3').text(response[0].choices3_count);
-                        $('#cc1-choices4').text(response[0].choices4_count);
-                        $('#cc2-choices1').text(response[1].choices1_count);
-                        $('#cc2-choices2').text(response[1].choices2_count);
-                        $('#cc2-choices3').text(response[1].choices3_count);
-                        $('#cc2-choices4').text(response[1].choices4_count);
-                        $('#cc3-choices1').text(response[2].choices1_count);
-                        $('#cc3-choices2').text(response[2].choices2_count);
-                        $('#cc3-choices3').text(response[2].choices3_count);
-                        $('#cc3-choices3').text(response[2].choices3_count);
-                        $('#total').append(`
-                            <td><strong>Total</strong></td>
-                            <td><strong>${choices1Total}</strong></td>
-                            <td><strong>${choices2Total}</strong></td>
-                            <td><strong>${choices3Total}</strong></td>
-                            td><strong>${choices4Total}</strong></td>
-                        `);
-                        // dataAppended = true;
+                        $('#cc1-choices1').text(response[0]?.choices1_count || 0);
+                        $('#cc1-choices2').text(response[0]?.choices2_count || 0);
+                        $('#cc1-choices3').text(response[0]?.choices3_count || 0);
+                        $('#cc1-choices4').text(response[0]?.choices4_count || 0);
+                        $('#cc2-choices1').text(response[1]?.choices1_count || 0);
+                        $('#cc2-choices2').text(response[1]?.choices2_count || 0);
+                        $('#cc2-choices3').text(response[1]?.choices3_count || 0);
+                        $('#cc2-choices4').text(response[1]?.choices4_count || 0);
+                        $('#cc3-choices1').text(response[2]?.choices1_count || 0);
+                        $('#cc3-choices2').text(response[2]?.choices2_count || 0);
+                        $('#cc3-choices3').text(response[2]?.choices3_count || 0);
+                        $('#cc3-choices3').text(response[2]?.choices3_count || 0);
+                        $('#choices1-total').text(choices1Total);
+                        $('#choices2-total').text(choices2Total);
+                        $('#choices3-total').text(choices3Total);
+                        $('#choices4-total').text(choices4Total);
                     },
                     error: function(xhr, status, error) {
                         // Handle error
                         console.error(xhr.responseText);
                     }
                 });
+
             });
         });
     </script>

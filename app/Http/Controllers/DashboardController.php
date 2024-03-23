@@ -9,15 +9,50 @@ class DashboardController extends Controller
 {
     public function viewCC(Request $request)
     {
-        $cc1 = DB::table('tbl_feedback')
+        // $cc1 = DB::table('tbl_feedback')
+        //     ->selectRaw(
+        //         'SUM(CASE WHEN cc1 LIKE "%I know what a CC is and I saw%" THEN 1 ELSE 0 END) AS choices1_count,
+        //          SUM(CASE WHEN cc1 LIKE "%I know what a CC is but I did not saw%" THEN 1 ELSE 0 END) AS choices2_count,
+        //          SUM(CASE WHEN cc1 LIKE "%I learned of the CC only when I saw%" THEN 1 ELSE 0 END) AS choices3_count,
+        //          SUM(CASE WHEN cc1 = "I do not know what a CC is and I did not see one in this office." THEN 1 ELSE 0 END) AS choices4_count',
+        //     )
+        //     ->first();
+        // $cc2 = DB::table('tbl_feedback')
+        //     ->selectRaw(
+        //         'SUM(CASE WHEN cc2 = "Easy to see" THEN 1 ELSE 0 END) AS choices1_count,
+        //          SUM(CASE WHEN cc2 = "Somewhat easy to see" THEN 1 ELSE 0 END) AS choices2_count,
+        //          SUM(CASE WHEN cc2 = "Difficult to see" THEN 1 ELSE 0 END) AS choices3_count,
+        //          SUM(CASE WHEN cc2 = "Not visible at all" THEN 1 ELSE 0 END) AS choices4_count',
+        //     )
+        //     ->first();
+        // $cc3 = DB::table('tbl_feedback')
+        //     ->selectRaw(
+        //         'SUM(CASE WHEN cc3 = "Helped very much" THEN 1 ELSE 0 END) AS choices1_count,
+        //          SUM(CASE WHEN cc3 = "Somewhat helped" THEN 1 ELSE 0 END) AS choices2_count,
+        //          SUM(CASE WHEN cc3 = "Did not help" THEN 1 ELSE 0 END) AS choices3_count',
+        //     )
+        //     ->first();
+        // $currentYear = Carbon::now()->year;
+        // $currentYear = 2030;
+        // $startYear = 2024;
+        // $years = [];
+
+        // for ($i = 0; $i <= (int) $currentYear - $startYear; $i++) {
+        //     $years[] = (int) $startYear + $i;
+        // }
+        // // dd($years);
+        // return view('cc', compact('cc1', 'cc2', 'cc3', 'currentYear', 'years'));
+
+        $cc1 = DB::table('tbl_feedback')->whereYear('feedback_date', $request->year)
             ->selectRaw(
                 'SUM(CASE WHEN cc1 LIKE "%I know what a CC is and I saw%" THEN 1 ELSE 0 END) AS choices1_count,
-                 SUM(CASE WHEN cc1 LIKE "%I know what a CC is but I did not saw%" THEN 1 ELSE 0 END) AS choices2_count,
+                 SUM(CASE WHEN cc1 LIKE "%I know what a CC is but did NOT see%" THEN 1 ELSE 0 END) AS choices2_count,
                  SUM(CASE WHEN cc1 LIKE "%I learned of the CC only when I saw%" THEN 1 ELSE 0 END) AS choices3_count,
                  SUM(CASE WHEN cc1 = "I do not know what a CC is and I did not see one in this office." THEN 1 ELSE 0 END) AS choices4_count',
             )
             ->first();
-        $cc2 = DB::table('tbl_feedback')
+
+        $cc2 = DB::table('tbl_feedback')->whereYear('feedback_date', $request->year)
             ->selectRaw(
                 'SUM(CASE WHEN cc2 = "Easy to see" THEN 1 ELSE 0 END) AS choices1_count,
                  SUM(CASE WHEN cc2 = "Somewhat easy to see" THEN 1 ELSE 0 END) AS choices2_count,
@@ -25,23 +60,30 @@ class DashboardController extends Controller
                  SUM(CASE WHEN cc2 = "Not visible at all" THEN 1 ELSE 0 END) AS choices4_count',
             )
             ->first();
-        $cc3 = DB::table('tbl_feedback')
+        $cc3 = DB::table('tbl_feedback')->whereYear('feedback_date', $request->year)
             ->selectRaw(
                 'SUM(CASE WHEN cc3 = "Helped very much" THEN 1 ELSE 0 END) AS choices1_count,
                  SUM(CASE WHEN cc3 = "Somewhat helped" THEN 1 ELSE 0 END) AS choices2_count,
                  SUM(CASE WHEN cc3 = "Did not help" THEN 1 ELSE 0 END) AS choices3_count',
             )
             ->first();
-        // $currentYear = Carbon::now()->year;
-        $currentYear = 2025;
+        $alldata = [ $cc1, $cc2, $cc3 ];
+
+        $currentYear = Carbon::now()->year;
+        // $currentYear = 2030;
         $startYear = 2024;
         $years = [];
 
         for ($i = 0; $i <= (int) $currentYear - $startYear; $i++) {
             $years[] = (int) $startYear + $i;
         }
-        // dd($request->all());
-        return view('cc', compact('cc1', 'cc2', 'cc3', 'currentYear', 'years'));
+        // dd($years);
+
+        if ($request->ajax()) {
+            return response()->json($alldata);
+        } else {
+            return view('cc', compact('currentYear', 'years'));
+        }
     }
 
     public function viewSQD()
