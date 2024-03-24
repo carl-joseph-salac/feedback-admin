@@ -2,7 +2,6 @@
 
 @section('headerTitle')
     <h1 class="m-0">Dashboard</h1>
-
 @endsection
 
 @section('content')
@@ -233,76 +232,27 @@
 
     <script>
         $(document).ready(function() {
-            var currentYear = "{{ $currentYear }}";
-            $.ajax({
-                url: 'http://localhost:8000/feedback-admin/public/dashboard/cc?year=' +
-                currentYear, // Update this your Laravel endpoint URL
-                type: 'GET', // Change the request method if needed
-                dataType: 'json', // The type of data you're expecting back from the server
-                success: function(response) {
-                    // Handle successful response
-                    console.log(response)
-                    var choices1Total = parseInt(response[0]?.choices1_count || 0) +
-                        parseInt(response[1]?.choices1_count || 0) +
-                        parseInt(response[2]?.choices1_count || 0);
-                    var choices2Total = parseInt(response[0]?.choices2_count || 0) +
-                        parseInt(response[1]?.choices2_count || 0) +
-                        parseInt(response[2]?.choices2_count || 0);
-                    var choices3Total = parseInt(response[0]?.choices3_count || 0) +
-                        parseInt(response[1]?.choices3_count || 0) +
-                        parseInt(response[2]?.choices3_count || 0);
-                    var choices4Total = parseInt(response[0]?.choices4_count || 0) +
-                        parseInt(response[1]?.choices4_count || 0);
-
-                    $('#cc1-choices1').text(response[0]?.choices1_count || 0);
-                    $('#cc1-choices2').text(response[0]?.choices2_count || 0);
-                    $('#cc1-choices3').text(response[0]?.choices3_count || 0);
-                    $('#cc1-choices4').text(response[0]?.choices4_count || 0);
-                    $('#cc2-choices1').text(response[1]?.choices1_count || 0);
-                    $('#cc2-choices2').text(response[1]?.choices2_count || 0);
-                    $('#cc2-choices3').text(response[1]?.choices3_count || 0);
-                    $('#cc2-choices4').text(response[1]?.choices4_count || 0);
-                    $('#cc3-choices1').text(response[2]?.choices1_count || 0);
-                    $('#cc3-choices2').text(response[2]?.choices2_count || 0);
-                    $('#cc3-choices3').text(response[2]?.choices3_count || 0);
-                    $('#cc3-choices3').text(response[2]?.choices3_count || 0);
-                    $('#choices1-total').text(choices1Total);
-                    $('#choices2-total').text(choices2Total);
-                    $('#choices3-total').text(choices3Total);
-                    $('#choices4-total').text(choices4Total);
-                },
-                error: function(xhr, status, error) {
-                    // Handle error
-                    console.error(xhr.responseText);
-                }
-            });
-
-            $('#yearForm').submit(function(event) {
-                // Prevent default form submission
-                event.preventDefault();
-
-                // Get form data
-                var formData = $('#select').val();
-                console.log(formData)
-                // Make AJAX request
+            // Fetches data from viewCC function in DashboardController and updates the page using AJAX with the received data.
+            // year argument is used to change the year in the first load of the page and if the use select a specific year.
+            function fetchData(year) {
                 $.ajax({
-                    url: 'http://localhost:8000/feedback-admin/public/dashboard/cc?year=' + formData,
+                    url: 'http://localhost:8000/feedback-admin/public/dashboard/cc?year=' + year,
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
                         // Handle successful response
                         console.log(response)
-                        var choices1Total = (parseInt(response[0]?.choices1_count) || 0) +
-                            (parseInt(response[1]?.choices1_count) || 0) +
-                            (parseInt(response[2]?.choices1_count) || 0);
-                        var choices2Total = (parseInt(response[0]?.choices2_count) || 0) +
-                            (parseInt(response[1]?.choices2_count) || 0) +
-                            (parseInt(response[2]?.choices2_count) || 0);
-                        var choices3Total = (parseInt(response[0]?.choices3_count) || 0) +
-                            (parseInt(response[1]?.choices3_count) || 0) +
-                            (parseInt(response[2]?.choices3_count) || 0);
-                        var choices4Total = (parseInt(response[0]?.choices4_count) || 0) +
-                            (parseInt(response[1]?.choices4_count) || 0);
+                        var choices1Total = parseInt(response[0]?.choices1_count || 0) +
+                            parseInt(response[1]?.choices1_count || 0) +
+                            parseInt(response[2]?.choices1_count || 0);
+                        var choices2Total = parseInt(response[0]?.choices2_count || 0) +
+                            parseInt(response[1]?.choices2_count || 0) +
+                            parseInt(response[2]?.choices2_count || 0);
+                        var choices3Total = parseInt(response[0]?.choices3_count || 0) +
+                            parseInt(response[1]?.choices3_count || 0) +
+                            parseInt(response[2]?.choices3_count || 0);
+                        var choices4Total = parseInt(response[0]?.choices4_count || 0) +
+                            parseInt(response[1]?.choices4_count || 0);
 
                         $('#cc1-choices1').text(response[0]?.choices1_count || 0);
                         $('#cc1-choices2').text(response[0]?.choices2_count || 0);
@@ -326,7 +276,21 @@
                         console.error(xhr.responseText);
                     }
                 });
+            }
 
+            // For the first load of the page
+            fetchData("{{ $currentYear }}");
+
+            // If the user select a specific year
+            $('#yearForm').submit(function(event) {
+
+                event.preventDefault();
+
+                var formData = $('#select').val();
+
+                console.log(formData)
+
+                fetchData(formData);
             });
         });
     </script>
