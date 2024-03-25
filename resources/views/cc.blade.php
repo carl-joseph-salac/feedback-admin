@@ -9,7 +9,7 @@
     <section class="content">
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
-            {{-- <div class="row">
+            <div class="row">
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
                     <div class="small-box bg-info">
@@ -70,9 +70,9 @@
                     </div>
                 </div>
                 <!-- ./col -->
-            </div> --}}
+            </div>
             <div class="row d-flex">
-                <div class="card card-danger card-outline col-12 col-lg-7 h-50">
+                <div class="card col-12 col-lg-7 h-50">
                     <div class="card-header">
                         <h3 class="card-title"><strong>CC</strong></h3>
                     </div>
@@ -83,22 +83,32 @@
 
                 <div class="col-lg-1"></div>
 
-                <div class="card card-danger card-outline col-12 col-lg-4 p-0 h-50">
+                <div class="card col-12 col-lg-4 p-0 h-50">
                     <div class="card-header text-right">
                         <form id="yearForm" action="" method="get">
-                            <select id="select" name="year" required="" class="btn btn-outline-danger btn-sm mr-1">
+                            <select id="select" name="year" class="form-control select2 select2-danger select2-hidden-accessible"
+                                data-dropdown-css-class="select2-danger" style="width: 100%;" data-select2-id="12"
+                                tabindex="-1" aria-hidden="true">
                                 @foreach ($years as $year)
                                     @if ($year == $currentYear)
-                                        <option value="{{ $year }}" selected>{{ $year }}</option>
+                                        <option value="{{ $year }}" selected="selected" data-select2-id="14">
+                                            {{ $year }}</option>
                                     @else
                                         <option value="{{ $year }}">{{ $year }}</option>
                                     @endif
                                 @endforeach
                                 <option value="2025">2025</option>
                             </select>
-                            <button id="view" type="submit" name="" class="btn btn-danger btn-sm rounded">
-                                View
-                            </button>
+                            {{-- <select id="select" name="year" required="" class="btn btn-outline-danger mr-1" style="width: 100%;">
+                                    @foreach ($years as $year)
+                                        @if ($year == $currentYear)
+                                            <option value="{{ $year }}" selected>{{ $year }}</option>
+                                        @else
+                                            <option value="{{ $year }}">{{ $year }}</option>
+                                        @endif
+                                    @endforeach
+                                    <option value="2025">2025</option>
+                                </select> --}}
                         </form>
                     </div>
                     <div class="card-body">
@@ -156,82 +166,15 @@
 @endsection
 
 @section('additionalScript')
-    {{-- <script>
-        // Get the canvas element
-        var ctx = document.getElementById('myChart').getContext('2d');
-
-        // Define data
-        var data = {
-            labels: [
-                'Choices 1',
-                'Choices 2',
-                'Choices 3',
-                'Choices 4'
-            ],
-            datasets: [{
-                label: 'CC1',
-                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                borderColor: 'rgba(255, 162, 235, 1)',
-                borderWidth: 1,
-                data: [
-                    {{ $cc1->choices1_count }},
-                    {{ $cc1->choices2_count }},
-                    {{ $cc1->choices3_count }},
-                    {{ $cc1->choices4_count }}
-                ]
-            }, {
-                label: 'CC2',
-                backgroundColor: 'rgba(0, 128, 128, 0.8)',
-                borderColor: 'rgba(255, 162, 235, 1)',
-                borderWidth: 1,
-                hidden: true,
-                data: [
-                    {{ $cc2->choices1_count }},
-                    {{ $cc2->choices2_count }},
-                    {{ $cc2->choices3_count }},
-                    {{ $cc2->choices4_count }}
-                ]
-            }, {
-                label: 'CC3',
-                backgroundColor: 'rgba(139, 69, 19, 0.8)',
-                borderColor: 'rgba(255, 162, 235, 1)',
-                borderWidth: 1,
-                hidden: true,
-                data: [
-                    {{ $cc3->choices1_count }},
-                    {{ $cc3->choices2_count }},
-                    {{ $cc3->choices3_count }},
-                ]
-            }]
-        };
-
-        // Configure options
-        var options = {
-            // scales: {
-            //     yAxes: [{
-            //         ticks: {
-            //             beginAtZero: true
-            //         }
-            //     }],
-            //     xAxes: [{
-            //         ticks: {
-            //             autoSkip: false,
-            //             maxRotation: 90, // Or any angle you want
-            //             minRotation: 90 // Should be the same as maxRotation
-            //         }
-            //     }]
-            // }
-        };
-        // Create the chart
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: options
-        });
-    </script> --}}
-
     <script>
         $(document).ready(function() {
+            $('#select').change(function() {
+                $('#yearForm').submit();
+            });
+
+            var ctx = $('#myChart').get(0).getContext('2d');
+            var myChart;
+
             // Fetches data from viewCC function in DashboardController and updates the page using AJAX with the received data.
             // year argument is used to change the year in the first load of the page and if the use select a specific year.
             function fetchData(year) {
@@ -270,6 +213,125 @@
                         $('#choices2-total').text(choices2Total);
                         $('#choices3-total').text(choices3Total);
                         $('#choices4-total').text(choices4Total);
+
+                        // Define data
+                        var data = {
+                            labels: [
+                                'Choices 1',
+                                'Choices 2',
+                                'Choices 3',
+                                'Choices 4'
+                            ],
+                            datasets: [{
+                                label: 'CC1',
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                borderColor: 'rgba(255, 162, 235, 1)',
+                                borderWidth: 1,
+                                data: [
+                                    response[0]?.choices1_count || 0,
+                                    response[0]?.choices2_count || 0,
+                                    response[0]?.choices3_count || 0,
+                                    response[0]?.choices4_count || 0
+                                ]
+                            }, {
+                                label: 'CC2',
+                                backgroundColor: 'rgba(0, 128, 128, 0.8)',
+                                borderColor: 'rgba(255, 162, 235, 1)',
+                                borderWidth: 1,
+                                hidden: true,
+                                data: [
+                                    response[1]?.choices1_count || 0,
+                                    response[1]?.choices2_count || 0,
+                                    response[1]?.choices3_count || 0,
+                                    response[1]?.choices4_count || 0
+                                ]
+                            }, {
+                                label: 'CC3',
+                                backgroundColor: 'rgba(139, 69, 19, 0.8)',
+                                borderColor: 'rgba(255, 162, 235, 1)',
+                                borderWidth: 1,
+                                hidden: true,
+                                data: [
+                                    response[2]?.choices1_count || 0,
+                                    response[2]?.choices2_count || 0,
+                                    response[2]?.choices3_count || 0
+                                ]
+                            }]
+                        };
+
+                        var labelsForCC1 = [
+                            'I know what a CC is and I saw this office\'s CC',
+                            'I know what a CC is but did NOT see this office\'s CC',
+                            'I learned of the CC only when I saw this office\'s CC.',
+                            'I do not know what a CC is and I did not see one in this office.'
+                        ];
+
+                        var labelsForCC2 = [
+                            'Easy to see',
+                            'Somewhat easy to see',
+                            'Difficult to see',
+                            'Not visible at all'
+                        ];
+
+                        var labelsForCC3 = [
+                            'Helped very much',
+                            'Somewhat helped',
+                            'Did not help'
+                        ];
+
+                        // Configure options
+                        var options = {
+                            legend: {
+                                display: false
+                            },
+                            scales: {
+                                x: {
+                                    type: 'category',
+                                    ticks: {
+                                        autoSkip: false,
+                                        maxRotation: 50,
+                                        minRotation: 50,
+                                        fontSize: 10
+                                    }
+                                },
+                                y: {
+                                    type: 'linear',
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            },
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        title: function(tooltipItem, data) {
+                                            var datasetIndex = tooltipItem[0].datasetIndex;
+                                            var index = tooltipItem[0].dataIndex;
+                                            if (datasetIndex === 0) {
+                                                return labelsForCC1[index];
+                                            } else if (datasetIndex === 1) {
+                                                return labelsForCC2[index];
+                                            } else {
+                                                return labelsForCC3[index];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        };
+
+                        // If the chart does not exist, create it
+                        if (!myChart) {
+                            myChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: data,
+                                options: options
+                            });
+                        } else {
+                            // If the chart already exists, update its data
+                            myChart.data = data;
+                            myChart.update();
+                        }
                     },
                     error: function(xhr, status, error) {
                         // Handle error
@@ -277,8 +339,7 @@
                     }
                 });
             }
-
-            // For the first load of the page
+            // Fetches data in the first load of the page
             fetchData("{{ $currentYear }}");
 
             // If the user select a specific year

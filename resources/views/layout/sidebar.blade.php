@@ -79,7 +79,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://20.20.23.71:8000/feedback-client/public/feedback?logsNumber=2024-00001"
+                    <a class="nav-link" href="http://20.20.23.71:8000/feedback-client/public/feedback?logsNumber=2024-00001" target="_blank
                         class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
