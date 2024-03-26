@@ -10,71 +10,71 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-lg-3 col-6">
+                <div class="col-lg-4 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-info">
+                    <div class="small-box bg-gradient-primary">
                         <div class="inner">
-                            <h3>150</h3>
-
-                            <p>New Orders</p>
+                            <h3 id="total-feedbacks">{{ $totalFeedbacks }}</h3>
+                            <p>Total Feedbacks</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-bag"></i>
+                            <i class="ion ion-star"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-6">
+                <div class="col-lg-4 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-success">
+                    <div class="small-box bg-gradient-secondary">
                         <div class="inner">
-                            <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                            <p>Bounce Rate</p>
+                            <h3 id="yearly-feedbacks">{{ $yearlyFeedbacks }}</h3>
+                            <div class="row">
+                                <p class="mx-2">Yearly Feedbacks</p>
+                                <form id="yearForm" action="" method="get">
+                                    <select id="select" name="year" class="btn btn-sm bg-white text-dark">
+                                        <option value="2023">2023</option>
+                                        @foreach ($years as $year)
+                                            @if ($year == $currentYear)
+                                                <option value="{{ $year }}" selected="selected"
+                                                    data-select2-id="14">
+                                                    {{ $year }}</option>
+                                            @else
+                                                <option value="{{ $year }}">{{ $year }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </form>
+                            </div>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
+                            <i class="ion ion-android-star-outline"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-6">
+                <div class="col-lg-4 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-warning">
+                    <div class="small-box bg-gradient-warning">
                         <div class="inner">
-                            <h3>44</h3>
-
-                            <p>User Registrations</p>
+                            <h3 id="queue">44</h3>
+                            <p>Queue</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-person-add"></i>
+                            <i class="ion-ios-people "></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-danger">
-                        <div class="inner">
-                            <h3>65</h3>
-
-                            <p>Unique Visitors</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-pie-graph"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- ./col -->
             </div>
             <div class="row d-flex">
-                <div class="card col-12 col-lg-7 h-50">
+                <div class="card card-info col-12 col-lg-7 p-0 h-50">
                     <div class="card-header">
-                        <h3 class="card-title"><strong>CC</strong></h3>
+                        <div class="row">
+                            <h3 class="card-title">
+                                <i class="ion-stats-bars mr-2"></i>
+                                <strong>Chart</strong>
+                            </h3>
+                        </div>
+
                     </div>
                     <div class="card-body">
                         <canvas class="d-flex justify-content-center mb-4" id="myChart"></canvas>
@@ -83,33 +83,12 @@
 
                 <div class="col-lg-1"></div>
 
-                <div class="card col-12 col-lg-4 p-0 h-50">
+                <div class="card card-info col-12 col-lg-4 p-0 h-50">
                     <div class="card-header text-right">
-                        <form id="yearForm" action="" method="get">
-                            <select id="select" name="year" class="form-control select2 select2-danger select2-hidden-accessible"
-                                data-dropdown-css-class="select2-danger" style="width: 100%;" data-select2-id="12"
-                                tabindex="-1" aria-hidden="true">
-                                @foreach ($years as $year)
-                                    @if ($year == $currentYear)
-                                        <option value="{{ $year }}" selected="selected" data-select2-id="14">
-                                            {{ $year }}</option>
-                                    @else
-                                        <option value="{{ $year }}">{{ $year }}</option>
-                                    @endif
-                                @endforeach
-                                <option value="2025">2025</option>
-                            </select>
-                            {{-- <select id="select" name="year" required="" class="btn btn-outline-danger mr-1" style="width: 100%;">
-                                    @foreach ($years as $year)
-                                        @if ($year == $currentYear)
-                                            <option value="{{ $year }}" selected>{{ $year }}</option>
-                                        @else
-                                            <option value="{{ $year }}">{{ $year }}</option>
-                                        @endif
-                                    @endforeach
-                                    <option value="2025">2025</option>
-                                </select> --}}
-                        </form>
+                        <h3 class="card-title">
+                            <i class="fa fa-table mr-2" aria-hidden="true"></i>
+                            <strong>Table</strong>
+                        </h3>
                     </div>
                     <div class="card-body">
                         <table class="table" width="100%">
@@ -129,31 +108,47 @@
                             <tbody id="tbody">
                                 <tr>
                                     <td>CC1</td>
-                                    <td id="cc1-choices1"></td>
-                                    <td id="cc1-choices2"></td>
-                                    <td id="cc1-choices3"></td>
-                                    <td id="cc1-choices4"></td>
+                                    <td id="cc1-choices1">{{ $cc1->choices1_count }}</td>
+                                    <td id="cc1-choices2">{{ $cc1->choices2_count }}</td>
+                                    <td id="cc1-choices3">{{ $cc1->choices3_count }}</td>
+                                    <td id="cc1-choices4">{{ $cc1->choices4_count }}</td>
                                 </tr>
                                 <tr>
                                     <td>CC2</td>
-                                    <td id="cc2-choices1"></td>
-                                    <td id="cc2-choices2"></td>
-                                    <td id="cc2-choices3"></td>
-                                    <td id="cc2-choices4"></td>
+                                    <td id="cc2-choices1">{{ $cc2->choices1_count }}</td>
+                                    <td id="cc2-choices2">{{ $cc2->choices2_count }}</td>
+                                    <td id="cc2-choices3">{{ $cc2->choices3_count }}</td>
+                                    <td id="cc2-choices4">{{ $cc2->choices4_count }}</td>
                                 </tr>
                                 <tr>
                                     <td>CC3</td>
-                                    <td id="cc3-choices1"></td>
-                                    <td id="cc3-choices2"></td>
-                                    <td id="cc3-choices3"></td>
+                                    <td id="cc3-choices1">{{ $cc3->choices1_count }}</td>
+                                    <td id="cc3-choices2">{{ $cc3->choices2_count }}</td>
+                                    <td id="cc3-choices3">{{ $cc3->choices3_count }}</td>
                                     <td></td>
                                 </tr>
                                 <tr>
                                     <td><strong>Total</strong></td>
-                                    <td><strong id="choices1-total"></strong></td>
-                                    <td><strong id="choices2-total"></strong></td>
-                                    <td><strong id="choices3-total"></strong></td>
-                                    <td><strong id="choices4-total"></strong></td>
+                                    <td>
+                                        <strong id="choices1-total">
+                                            {{ $cc1->choices1_count + $cc2->choices1_count + $cc3->choices1_count }}
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong id="choices2-total">
+                                            {{ $cc1->choices2_count + $cc2->choices2_count + $cc3->choices2_count }}
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong id="choices3-total">
+                                            {{ $cc1->choices3_count + $cc2->choices3_count + $cc3->choices3_count }}
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong id="choices4-total">
+                                            {{ $cc1->choices4_count + $cc2->choices4_count }}
+                                        </strong>
+                                    </td>
                                 </tr>
                                 {{-- <tr id="total"></tr> --}}
                             </tbody>
@@ -167,24 +162,141 @@
 
 @section('additionalScript')
     <script>
+        var ctx = $('#myChart').get(0).getContext('2d');
+        var myChart;
+
+        // Define data
+        var data = {
+            labels: [
+                'Choices 1',
+                'Choices 2',
+                'Choices 3',
+                'Choices 4'
+            ],
+            datasets: [{
+                label: 'CC1',
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                borderColor: 'rgba(255, 162, 235, 1)',
+                borderWidth: 1,
+                data: [
+                    {{ $cc1->choices1_count }},
+                    {{ $cc1->choices2_count }},
+                    {{ $cc1->choices3_count }},
+                    {{ $cc1->choices4_count }}
+                ]
+            }, {
+                label: 'CC2',
+                backgroundColor: 'rgba(0, 128, 128, 0.8)',
+                borderColor: 'rgba(255, 162, 235, 1)',
+                borderWidth: 1,
+                hidden: true,
+                data: [
+                    {{ $cc2->choices1_count }},
+                    {{ $cc2->choices2_count }},
+                    {{ $cc2->choices3_count }},
+                    {{ $cc2->choices4_count }}
+                ]
+            }, {
+                label: 'CC3',
+                backgroundColor: 'rgba(139, 69, 19, 0.8)',
+                borderColor: 'rgba(255, 162, 235, 1)',
+                borderWidth: 1,
+                hidden: true,
+                data: [
+                    {{ $cc3->choices1_count }},
+                    {{ $cc3->choices2_count }},
+                    {{ $cc3->choices3_count }},
+                ]
+            }]
+        };
+
+        var labelsForCC1 = [
+            'I know what a CC is and I saw this office\'s CC',
+            'I know what a CC is but did NOT see this office\'s CC',
+            'I learned of the CC only when I saw this office\'s CC.',
+            'I do not know what a CC is and I did not see one in this office.'
+        ];
+
+        var labelsForCC2 = [
+            'Easy to see',
+            'Somewhat easy to see',
+            'Difficult to see',
+            'Not visible at all'
+        ];
+
+        var labelsForCC3 = [
+            'Helped very much',
+            'Somewhat helped',
+            'Did not help'
+        ];
+
+        // Configure options
+        var options = {
+            // scales: {
+            //     x: {
+            //         type: 'category',
+            //         ticks: {
+            //             autoSkip: false,
+            //             maxRotation: 50,
+            //             minRotation: 50,
+            //             fontSize: 10
+            //         }
+            //     },
+            //     y: {
+            //         type: 'linear',
+            //         ticks: {
+            //             beginAtZero: true
+            //         }
+            //     }
+            // },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItem, data) {
+                            var datasetIndex = tooltipItem[0]
+                                .datasetIndex;
+                            var index = tooltipItem[0].dataIndex;
+                            if (datasetIndex === 0) {
+                                return labelsForCC1[index];
+                            } else if (datasetIndex === 1) {
+                                return labelsForCC2[index];
+                            } else {
+                                return labelsForCC3[index];
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    </script>
+
+    <script>
         $(document).ready(function() {
+            // Automatically submit the form after selecting a year
             $('#select').change(function() {
                 $('#yearForm').submit();
             });
 
-            var ctx = $('#myChart').get(0).getContext('2d');
-            var myChart;
+            // If the user select a specific year
+            $('#yearForm').submit(function(event) {
 
-            // Fetches data from viewCC function in DashboardController and updates the page using AJAX with the received data.
-            // year argument is used to change the year in the first load of the page and if the use select a specific year.
-            function fetchData(year) {
+                event.preventDefault();
+
+                var formData = $('#select').val();
+
                 $.ajax({
-                    url: 'http://localhost:8000/feedback-admin/public/dashboard/cc?year=' + year,
+                    url: 'http://localhost:8000/feedback-admin/public/dashboard/cc?year=' +
+                        formData,
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
                         // Handle successful response
-                        console.log(response)
                         var choices1Total = parseInt(response[0]?.choices1_count || 0) +
                             parseInt(response[1]?.choices1_count || 0) +
                             parseInt(response[2]?.choices1_count || 0);
@@ -196,6 +308,8 @@
                             parseInt(response[2]?.choices3_count || 0);
                         var choices4Total = parseInt(response[0]?.choices4_count || 0) +
                             parseInt(response[1]?.choices4_count || 0);
+                        var yearlyFeedbacks = choices1Total + choices2Total + choices3Total +
+                            choices4Total;
 
                         $('#cc1-choices1').text(response[0]?.choices1_count || 0);
                         $('#cc1-choices2').text(response[0]?.choices2_count || 0);
@@ -213,6 +327,8 @@
                         $('#choices2-total').text(choices2Total);
                         $('#choices3-total').text(choices3Total);
                         $('#choices4-total').text(choices4Total);
+                        $('#total-feedbacks').text(response[3]);
+                        $('#yearly-feedbacks').text(response[4]);
 
                         // Define data
                         var data = {
@@ -305,7 +421,8 @@
                                 tooltip: {
                                     callbacks: {
                                         title: function(tooltipItem, data) {
-                                            var datasetIndex = tooltipItem[0].datasetIndex;
+                                            var datasetIndex = tooltipItem[0]
+                                                .datasetIndex;
                                             var index = tooltipItem[0].dataIndex;
                                             if (datasetIndex === 0) {
                                                 return labelsForCC1[index];
@@ -338,20 +455,6 @@
                         console.error(xhr.responseText);
                     }
                 });
-            }
-            // Fetches data in the first load of the page
-            fetchData("{{ $currentYear }}");
-
-            // If the user select a specific year
-            $('#yearForm').submit(function(event) {
-
-                event.preventDefault();
-
-                var formData = $('#select').val();
-
-                console.log(formData)
-
-                fetchData(formData);
             });
         });
     </script>

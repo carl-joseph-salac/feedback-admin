@@ -9,7 +9,7 @@
     <section class="content">
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
-            {{-- <div class="row">
+            <div class="row">
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
                     <div class="small-box bg-info">
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-            </div> --}}
+            </div>
             <div class="row d-flex">
                 <div class="card card-danger card-outline col-12 col-lg-7 h-50">
                     <div class="card-header">
@@ -401,13 +401,7 @@
 
         // Configure options
         var options = {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
+
         };
 
         // Create the chart

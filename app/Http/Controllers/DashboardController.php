@@ -9,7 +9,9 @@ class DashboardController extends Controller
 {
     public function viewCC(Request $request)
     {
-        $cc1 = DB::table('tbl_feedback')->whereYear('feedback_date', $request->year)
+        $year = $request->year ?? Carbon::now()->year;
+
+        $cc1 = DB::table('tbl_feedback')->whereYear('feedback_date', $year)
             ->selectRaw(
                 'SUM(CASE WHEN cc1 LIKE "%I know what a CC is and I saw%" THEN 1 ELSE 0 END) AS choices1_count,
                  SUM(CASE WHEN cc1 LIKE "%I know what a CC is but did NOT see%" THEN 1 ELSE 0 END) AS choices2_count,
@@ -18,7 +20,7 @@ class DashboardController extends Controller
             )
             ->first();
 
-        $cc2 = DB::table('tbl_feedback')->whereYear('feedback_date', $request->year)
+        $cc2 = DB::table('tbl_feedback')->whereYear('feedback_date', $year)
             ->selectRaw(
                 'SUM(CASE WHEN cc2 = "Easy to see" THEN 1 ELSE 0 END) AS choices1_count,
                  SUM(CASE WHEN cc2 = "Somewhat easy to see" THEN 1 ELSE 0 END) AS choices2_count,
@@ -26,17 +28,19 @@ class DashboardController extends Controller
                  SUM(CASE WHEN cc2 = "Not visible at all" THEN 1 ELSE 0 END) AS choices4_count',
             )
             ->first();
-        $cc3 = DB::table('tbl_feedback')->whereYear('feedback_date', $request->year)
+        $cc3 = DB::table('tbl_feedback')->whereYear('feedback_date', $year)
             ->selectRaw(
                 'SUM(CASE WHEN cc3 = "Helped very much" THEN 1 ELSE 0 END) AS choices1_count,
                  SUM(CASE WHEN cc3 = "Somewhat helped" THEN 1 ELSE 0 END) AS choices2_count,
                  SUM(CASE WHEN cc3 = "Did not help" THEN 1 ELSE 0 END) AS choices3_count',
             )
             ->first();
-        $alldata = [ $cc1, $cc2, $cc3 ];
 
+        $yearlyFeedbacks = DB::table('tbl_feedback')->whereYear('feedback_date', $year)->count();
+        $totalFeedbacks = DB::table('tbl_feedback')->count();
+        $alldata = [ $cc1, $cc2, $cc3, $totalFeedbacks, $yearlyFeedbacks ];
         $currentYear = Carbon::now()->year;
-        // $currentYear = 2030;
+        // $currentYear = 2023;
         $startYear = 2024;
         $years = [];
 
@@ -48,7 +52,7 @@ class DashboardController extends Controller
         if ($request->ajax()) {
             return response()->json($alldata);
         } else {
-            return view('cc', compact('currentYear', 'years'));
+            return view('cc', compact('cc1', 'cc2', 'cc3', 'currentYear', 'years', 'totalFeedbacks', 'yearlyFeedbacks'));
         }
     }
 
