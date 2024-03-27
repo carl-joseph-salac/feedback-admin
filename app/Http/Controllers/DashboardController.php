@@ -7,11 +7,29 @@ use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
+    private $currentYear ,$year, $startYear, $years, $totalFeedbacks, $yearlyFeedbacks;
+
+    public function __construct(Request $request)
+    {
+        $this->currentYear = Carbon::now()->year;
+        $this->year = $request->year ?? $this->currentYear;
+        $this->startYear = 2024;
+        $this->years = [];
+        for ($i = 0; $i <= (int) $this->currentYear - $this->startYear; $i++) {
+            $this->years[] = (int) $this->startYear + $i;
+        }
+        $this->totalFeedbacks = DB::table('tbl_feedback')->count();
+        $this->yearlyFeedbacks = DB::table('tbl_feedback')->whereYear('feedback_date', $this->year)->count();
+    }
+
     public function viewCC(Request $request)
     {
-        $year = $request->year ?? Carbon::now()->year;
-
-        $cc1 = DB::table('tbl_feedback')->whereYear('feedback_date', $year)
+        // $totalFeedbacks = $this->totalFeedbacks;
+        // $yearlyFeedbacks = $this->yearlyFeedbacks;
+        // $year = $this->year;
+        // $currentYear = $this->currentYear;
+        // $years = $this->years;
+        $cc1 = DB::table('tbl_feedback')->whereYear('feedback_date', $this->year)
             ->selectRaw(
                 'SUM(CASE WHEN cc1 LIKE "%I know what a CC is and I saw%" THEN 1 ELSE 0 END) AS choices1_count,
                  SUM(CASE WHEN cc1 LIKE "%I know what a CC is but did NOT see%" THEN 1 ELSE 0 END) AS choices2_count,
@@ -20,7 +38,7 @@ class DashboardController extends Controller
             )
             ->first();
 
-        $cc2 = DB::table('tbl_feedback')->whereYear('feedback_date', $year)
+        $cc2 = DB::table('tbl_feedback')->whereYear('feedback_date', $this->year)
             ->selectRaw(
                 'SUM(CASE WHEN cc2 = "Easy to see" THEN 1 ELSE 0 END) AS choices1_count,
                  SUM(CASE WHEN cc2 = "Somewhat easy to see" THEN 1 ELSE 0 END) AS choices2_count,
@@ -28,7 +46,7 @@ class DashboardController extends Controller
                  SUM(CASE WHEN cc2 = "Not visible at all" THEN 1 ELSE 0 END) AS choices4_count',
             )
             ->first();
-        $cc3 = DB::table('tbl_feedback')->whereYear('feedback_date', $year)
+        $cc3 = DB::table('tbl_feedback')->whereYear('feedback_date', $this->year)
             ->selectRaw(
                 'SUM(CASE WHEN cc3 = "Helped very much" THEN 1 ELSE 0 END) AS choices1_count,
                  SUM(CASE WHEN cc3 = "Somewhat helped" THEN 1 ELSE 0 END) AS choices2_count,
@@ -36,28 +54,27 @@ class DashboardController extends Controller
             )
             ->first();
 
-        $yearlyFeedbacks = DB::table('tbl_feedback')->whereYear('feedback_date', $year)->count();
-        $totalFeedbacks = DB::table('tbl_feedback')->count();
-        $alldata = [ $cc1, $cc2, $cc3, $totalFeedbacks, $yearlyFeedbacks ];
-        $currentYear = Carbon::now()->year;
-        // $currentYear = 2023;
-        $startYear = 2024;
-        $years = [];
+        $alldata = [ $cc1, $cc2, $cc3, $this->totalFeedbacks, $this->yearlyFeedbacks ];
 
-        for ($i = 0; $i <= (int) $currentYear - $startYear; $i++) {
-            $years[] = (int) $startYear + $i;
-        }
-        // dd($years);
-
-        if ($request->ajax()) {
-            return response()->json($alldata);
+        if (!$request->ajax()) {
+            return view('cc', [
+                'totalFeedbacks' => $this->totalFeedbacks,
+                'yearlyFeedbacks' => $this->yearlyFeedbacks,
+                'years' => $this->years,
+                'currentYear' => $this->currentYear,
+                'cc1' => $cc1,
+                'cc2' => $cc2,
+                'cc3' => $cc3
+            ]);
         } else {
-            return view('cc', compact('cc1', 'cc2', 'cc3', 'currentYear', 'years', 'totalFeedbacks', 'yearlyFeedbacks'));
+            return response()->json($alldata);
         }
     }
 
     public function viewSQD()
     {
+        $year = $this->year;
+
         $sqd0 = DB::table('tbl_feedback')
             ->selectRaw(
                 'SUM(CASE WHEN sqd0 = "Strongly Disagree" THEN 1 ELSE 0 END) AS strongly_disagree_count,
@@ -148,8 +165,10 @@ class DashboardController extends Controller
             $years[] = (int) $startYear + $i;
         }
 
-        $currentYear = Carbon::now()->year;
-        return view('sqd', compact('sqd0', 'sqd1', 'sqd2', 'sqd3', 'sqd4', 'sqd5', 'sqd6', 'sqd7', 'sqd8', 'currentYear', 'years'));
+        $yearlyFeedbacks = DB::table('tbl_feedback')->whereYear('feedback_date', $year)->count();
+        $totalFeedbacks = DB::table('tbl_feedback')->count();
+
+        return view('sqd', compact('sqd0', 'sqd1', 'sqd2', 'sqd3', 'sqd4', 'sqd5', 'sqd6', 'sqd7', 'sqd8', 'currentYear', 'years', 'totalFeedbacks', 'yearlyFeedbacks'));
     }
 
     public function viewReport()
