@@ -4,12 +4,7 @@
     var myChart;
 
     var data = {
-        labels: [
-            'Choices 1',
-            'Choices 2',
-            'Choices 3',
-            'Choices 4'
-        ],
+        labels: ['Choices 1', 'Choices 2', 'Choices 3', 'Choices 4'],
         datasets: [{
             label: 'CC1',
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -101,9 +96,7 @@
 
     // AJAX if the user select a specific year
     $('#yearForm').submit(function(event) {
-
         event.preventDefault();
-
         var formData = $('#select').val();
 
         $.ajax({
@@ -124,8 +117,6 @@
                     parseInt(response[2]?.choices3_count || 0);
                 var choices4Total = parseInt(response[0]?.choices4_count || 0) +
                     parseInt(response[1]?.choices4_count || 0);
-                var yearlyFeedbacks = choices1Total + choices2Total + choices3Total +
-                    choices4Total;
 
                 $('#cc1-choices1').text(response[0]?.choices1_count || 0);
                 $('#cc1-choices2').text(response[0]?.choices2_count || 0);
@@ -146,106 +137,27 @@
                 $('#total-feedbacks').text(response[3]);
                 $('#yearly-feedbacks').text(response[4]);
 
-                // Define data
-                var data = {
-                    labels: [
-                        'Choices 1',
-                        'Choices 2',
-                        'Choices 3',
-                        'Choices 4'
-                    ],
-                    datasets: [{
-                        label: 'CC1',
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        borderColor: 'rgba(255, 162, 235, 1)',
-                        borderWidth: 1,
-                        data: [
-                            response[0]?.choices1_count || 0,
-                            response[0]?.choices2_count || 0,
-                            response[0]?.choices3_count || 0,
-                            response[0]?.choices4_count || 0
-                        ]
-                    }, {
-                        label: 'CC2',
-                        backgroundColor: 'rgba(0, 128, 128, 0.8)',
-                        borderColor: 'rgba(255, 162, 235, 1)',
-                        borderWidth: 1,
-                        hidden: true,
-                        data: [
-                            response[1]?.choices1_count || 0,
-                            response[1]?.choices2_count || 0,
-                            response[1]?.choices3_count || 0,
-                            response[1]?.choices4_count || 0
-                        ]
-                    }, {
-                        label: 'CC3',
-                        backgroundColor: 'rgba(139, 69, 19, 0.8)',
-                        borderColor: 'rgba(255, 162, 235, 1)',
-                        borderWidth: 1,
-                        hidden: true,
-                        data: [
-                            response[2]?.choices1_count || 0,
-                            response[2]?.choices2_count || 0,
-                            response[2]?.choices3_count || 0
-                        ]
-                    }]
-                };
-
-                var labelsForCC1 = [
-                    'I know what a CC is and I saw this office\'s CC',
-                    'I know what a CC is but did NOT see this office\'s CC',
-                    'I learned of the CC only when I saw this office\'s CC.',
-                    'I do not know what a CC is and I did not see one in this office.'
+                myChart.data.datasets[0].data = [
+                    response[0]?.choices1_count || 0,
+                    response[0]?.choices2_count || 0,
+                    response[0]?.choices3_count || 0,
+                    response[0]?.choices4_count || 0
                 ];
 
-                var labelsForCC2 = [
-                    'Easy to see',
-                    'Somewhat easy to see',
-                    'Difficult to see',
-                    'Not visible at all'
+                myChart.data.datasets[1].data = [
+                    response[1]?.choices1_count || 0,
+                    response[1]?.choices2_count || 0,
+                    response[1]?.choices3_count || 0,
+                    response[1]?.choices4_count || 0
                 ];
 
-                var labelsForCC3 = [
-                    'Helped very much',
-                    'Somewhat helped',
-                    'Did not help'
+                myChart.data.datasets[2].data = [
+                    response[2]?.choices1_count || 0,
+                    response[2]?.choices2_count || 0,
+                    response[2]?.choices3_count || 0,
                 ];
 
-                // Configure options
-                var options = {
-
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                title: function(tooltipItem, data) {
-                                    var datasetIndex = tooltipItem[0]
-                                        .datasetIndex;
-                                    var index = tooltipItem[0].dataIndex;
-                                    if (datasetIndex === 0) {
-                                        return labelsForCC1[index];
-                                    } else if (datasetIndex === 1) {
-                                        return labelsForCC2[index];
-                                    } else {
-                                        return labelsForCC3[index];
-                                    }
-                                }
-                            }
-                        }
-                    }
-                };
-
-                // If the chart does not exist, create it
-                if (!myChart) {
-                    myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: data,
-                        options: options
-                    });
-                } else {
-                    // If the chart already exists, update its data
-                    myChart.data = data;
-                    myChart.update();
-                }
+                myChart.update();
             },
             error: function(xhr, status, error) {
                 // Handle error

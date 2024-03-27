@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             @include('layout.statBox')
-            <div class="row d-flex">
+            <div class="row">
                 <div class="card card-info col-12 col-lg-7 p-0 h-50">
                     <div class="card-header">
                         <div class="row">
@@ -19,7 +19,6 @@
                                 <strong>Chart</strong>
                             </h3>
                         </div>
-
                     </div>
                     <div class="card-body">
                         <canvas class="d-flex justify-content-center mb-4" id="myChart"></canvas>
